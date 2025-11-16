@@ -29,3 +29,14 @@ def create_user(db: Session, user: UserCreate) -> DBUser:
 def get_user_by_email(db: Session, email: str) -> Optional[DBUser]:
     """Récupération d'un utilisateur par son email."""
     return db.query(DBUser).filter(DBUser.email == email).first()
+
+def check_user_password(db_user: DBUser, password: str) -> bool:
+    """Vérification du mot de passe de l'utilisateur."""
+    return bcrypt.checkpw(password.encode('utf-8'), db_user.hashed_password.encode('utf-8'))
+
+def delete_user(db: Session, user_id: int) -> None:
+    """Suppression d'un utilisateur par son ID."""
+    db_user = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if db_user:
+        db.delete(db_user)
+        db.commit()

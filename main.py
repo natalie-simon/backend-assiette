@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import get_db
 from users.models import User, UserCreate
@@ -6,9 +7,17 @@ import users.crud as crud
 
 app = FastAPI(title="Backend Service Mon Assiette", version="0.1.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/")
 async def read_root():
-    return {"message": "Hello World"}
+    return {"message": "Bienvenue sur le service backend Mon Assiette!"}
 
 @app.post("/register", response_model = User)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
@@ -26,3 +35,8 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
         #full_name=new_user.full_name,
         disabled=not new_user.is_active,
     )
+
+@app.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(user_id: int, db: Session = Depends(get_db)):
+    crud.delete_user(db, user_id)
+    return None
