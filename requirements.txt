@@ -1,0 +1,15 @@
+  # Framework web
+  fastapi==0.115.0
+
+  # Serveur ASGI (pour exécuter FastAPI)
+  uvicorn==0.30.0
+
+  # Base de données
+  sqlalchemy==2.0.44
+
+  # Sécurité
+  bcrypt==5.0.0
+  python-jose[cryptography]==3.5.0
+
+  # Optionnel mais utile
+  python-multipart==0.0.6
