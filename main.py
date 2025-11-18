@@ -2,8 +2,10 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import get_db
-from users.models import User, UserCreate
+from users.models import User, UserCreate, UserLogin
+from auth import create_access_token
 import users.crud as crud
+
 
 app = FastAPI(title="Backend Service Mon Assiette", version="0.1.0")
 
@@ -35,6 +37,22 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
         #full_name=new_user.full_name,
         disabled=not new_user.is_active,
     )
+
+@app.post("/login", response_model=dict)
+async def login_user(user_login: UserLogin, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_email(db, email=user_login.email)
+    if not db_user or not crud.check_user_password(db_user, user_login):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Nom d'utilisateur ou mot de passe incorrect.",
+        )
+
+    access_token = create_access_token(data={
+        "username": db_user.username,
+        "email": db_user.email,
+        "disabled": not db_user.is_active
+    })
+    return access_token 
 
 @app.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(user_id: int, db: Session = Depends(get_db)):

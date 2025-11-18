@@ -1,7 +1,7 @@
 import bcrypt
 from sqlalchemy.orm import Session
 from database import DBUser, DBRole
-from users.models import UserCreate
+from users.models import UserCreate, UserLogin
 from typing import Optional
 
 def create_user(db: Session, user: UserCreate) -> DBUser:
@@ -40,3 +40,7 @@ def delete_user(db: Session, user_id: int) -> None:
     if db_user:
         db.delete(db_user)
         db.commit()
+
+def check_user_password(db_user: DBUser, login_user: UserLogin) -> bool:
+    """Vérification du mot de passe de l'utilisateur."""
+    return bcrypt.checkpw(login_user.password.encode('utf-8'), db_user.hashed_password.encode('utf-8'))
