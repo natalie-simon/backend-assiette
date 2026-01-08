@@ -7,7 +7,7 @@ from auth import create_access_token
 import users.crud as crud
 
 
-app = FastAPI(title="Backend Service Mon Assiette °8/01/26", version="0.1.0")
+app = FastAPI(title="Backend Service Mon Assiette 08/01/26", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
