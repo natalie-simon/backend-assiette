@@ -19,7 +19,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
-    return {"message": "Bienvenue sur le service backend Mon Assiette!"}
+    return {"message": "Bienvenue sur le service backend deploy via github actions!"}
 
 @app.post("/register", response_model = User)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
