@@ -15,11 +15,19 @@ Commit on `main` → GitHub Actions → Render
 1. **GitHub Actions**:
    - Docker image build
    - Push to Docker Hub (`natalie2201/fastapi-test`)
-   - Trigger deployment on Render
+   - Trigger deployment on Render via API
 
 2. **Render**:
-   - Application retrieval and deployment
+   - Application retrieval and deployment from GitHub repository
    - Auto-deploy disabled (managed by GitHub Actions)
+
+### Docker Hub Image
+
+The Docker image is pushed to Docker Hub for:
+- Horizontal scaling (multiple deployment instances)
+- Multi-environment deployments (dev/staging/prod)
+- Platform portability (Kubernetes, AWS ECS, etc.)
+- Disaster recovery scenarios
 
 ### Required Secrets
 
@@ -41,10 +49,3 @@ GitHub Secrets configuration:
 ---
 
 **Note**: Exercise 3.2 from "DevOps with Docker" MOOC (University of Helsinki)
-
-### Evolution
-
-**Option 1 (initial)**: Render directly monitors changes on `main`
-**Option 2 (current)**: GitHub Actions triggers deployment on Render via API
-
-The Docker image is also available on Docker Hub for future use.
