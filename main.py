@@ -7,7 +7,7 @@ from auth import create_access_token
 import users.crud as crud
 
 
-app = FastAPI(title="Backend Service Mon Assiette 08/01/26", version="0.1.0")
+app = FastAPI(title="Backend Service Mon Assiette", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,7 +19,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
-    return {"message": "Bienvenue sur le service backend deploy via github actions!"}
+    return {"message": "Bienvenue sur le service backend deploy le 08 janvier 2026 !"}
 
 @app.post("/register", response_model = User)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
