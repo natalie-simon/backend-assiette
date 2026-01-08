@@ -1,12 +1,4 @@
 services:
-  watchtower:
-    image: nickfedor/watchtower:latest # this one works with ARM64
-    platform: linux/amd64 
-    environment:
-      - WATCHTOWER_POLL_INTERVAL=60 <em># Poll every 60 seconds</em>
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    container_name: watchtower
   api: 
     image: natalie2201/fastapi-test:latest
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000", "--reload"]
