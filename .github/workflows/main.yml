@@ -27,5 +27,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_NAMESPACE }}/helsinki-module4:latest
+        tags: ${{ secrets.DOCKER_NAMESPACE }}/fastapi-test:latest
         platforms: linux/amd64,linux/arm64
